@@ -9,7 +9,7 @@ namespace VisiitkaartBackend.Data
 {
     public class VisiitkaartDbContext : DbContext
     {
-        public VisiitkaartDbContext(DbContextOptions options) 
+        public VisiitkaartDbContext(DbContextOptions options)
             : base(options)
         {
 
@@ -17,18 +17,25 @@ namespace VisiitkaartBackend.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<DbUser>().HasKey(table => new
-            {
-                table.Email
-            });
+            builder.Entity<User>().HasKey(table => table.Email);
 
-            builder.Entity<DbUserRole>().HasKey(table => new {
-                table.UserEmail,
-                table.RoleValue
-            });
+            builder.Entity<UserRole>()
+                .HasKey(table => new
+                {
+                    table.UserEmail,
+                    table.RoleValue
+                });
+
+            //builder.Entity<UserRole>()
+            //    .HasOne(r => r.User)
+            //    .WithMany()
+            //    .HasForeignKey(r => r.Email)
+            //    .IsRequired()
+            //;
+
         }
 
-        public DbSet<DbUser> Users { get; set; }
-        public DbSet<DbUserRole> UserRoles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
     }
 }

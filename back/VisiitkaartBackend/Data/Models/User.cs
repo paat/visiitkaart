@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace VisiitkaartBackend.Data.Models
 {
-    public class DbUser
+    public class User
     {
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public ICollection<DbUserRole> Roles { get; set; }
+        public ICollection<UserRole> Roles { get; set; }
     }
 }

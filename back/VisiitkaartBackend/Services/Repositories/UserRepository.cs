@@ -17,14 +17,14 @@ namespace VisiitkaartBackend.Services.Repositories
             _context = context;
         }
 
-        public DbUser Add(DbUser user)
+        public User Add(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
 
-        public DbUser Get(string email)
+        public User Get(string email)
         { 
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }

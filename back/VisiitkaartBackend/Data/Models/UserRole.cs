@@ -6,9 +6,10 @@ using VisiitkaartBackend.Data.Models.Enums;
 
 namespace VisiitkaartBackend.Data.Models
 {
-    public class DbUserRole
+    public class UserRole
     {
         public string UserEmail { get; set; }
         public UserRoleEnum RoleValue { get; set; }
+        public User User { get; set; }
     }
 }

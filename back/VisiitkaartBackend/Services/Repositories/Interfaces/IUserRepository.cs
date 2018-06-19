@@ -8,7 +8,7 @@ namespace VisiitkaartBackend.Services.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        DbUser Get(string email);
-        DbUser Add(DbUser user);
+        User Get(string email);
+        User Add(User user);
     }
 }
