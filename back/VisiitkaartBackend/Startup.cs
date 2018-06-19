@@ -8,9 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using VisiitkaartBackend.Data;
+using VisiitkaartBackend.Services.Repositories;
+using VisiitkaartBackend.Services.Repositories.Interfaces;
 
 namespace VisiitkaartBackend
 {
@@ -29,6 +33,10 @@ namespace VisiitkaartBackend
         {
             services.AddCors(CorsOptions);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtOptions);
+            services.AddDbContext<VisiitkaartDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("Visiitkaart"))
+                );
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddMvc();
         }
 
