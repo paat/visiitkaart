@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VisiitkaartBackend.Data.Models;
 using VisiitkaartBackend.Data.Models.Enums;
+using VisiitkaartBackend.Models.Options;
 using VisiitkaartBackend.Services.Interfaces;
 using VisiitkaartBackend.Services.Repositories.Interfaces;
 
@@ -18,12 +20,12 @@ namespace VisiitkaartBackend.Services
     public class CustomSignInService : ICustomSignInService
     {
         IUserRepository _userRepository;
-        IConfiguration _configuration;
+        JwtOptions _jwtOptions;
 
-        public CustomSignInService(IUserRepository userRepository, IConfiguration configuration)
+        public CustomSignInService(IUserRepository userRepository, IOptions<JwtOptions> jwtOptions)
         {
-            _userRepository = userRepository;
-            _configuration = configuration;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _jwtOptions = jwtOptions.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
         }
 
         public User RegisterNewUser(string email, string password, List<UserRoleEnum> roles)
@@ -93,13 +95,14 @@ namespace VisiitkaartBackend.Services
                 claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
-              _configuration["Jwt:Issuer"],
+            var token = new JwtSecurityToken(
+                _jwtOptions.Issuer,
+              _jwtOptions.Issuer,
               claims,
-              expires: DateTime.Now.AddMinutes(int.Parse(_configuration["Jwt:LifeTimeMinutes"])),
+              expires: DateTime.Now.AddMinutes(int.Parse(_jwtOptions.LifeTimeMinutes)),
               signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

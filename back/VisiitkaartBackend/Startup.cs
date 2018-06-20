@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using VisiitkaartBackend.Data;
+using VisiitkaartBackend.Models.Options;
 using VisiitkaartBackend.Services;
 using VisiitkaartBackend.Services.Interfaces;
 using VisiitkaartBackend.Services.Repositories;
@@ -40,6 +41,8 @@ namespace VisiitkaartBackend
                 );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICustomSignInService, CustomSignInService>();
+
+            services.Configure<JwtOptions>(Configuration.GetSection("Jwt"));
             services.AddMvc();
         }
 
