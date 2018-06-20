@@ -23,30 +23,18 @@ namespace VisiitkaartBackend.Migrations
                     b.Property<string>("Email")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(200);
+
+                    b.Property<byte>("RoleValue");
 
                     b.HasKey("Email");
 
                     b.ToTable("Users");
-                });
 
-            modelBuilder.Entity("VisiitkaartBackend.Data.Models.UserRole", b =>
-                {
-                    b.Property<string>("UserEmail");
-
-                    b.Property<byte>("RoleValue");
-
-                    b.HasKey("UserEmail", "RoleValue");
-
-                    b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("VisiitkaartBackend.Data.Models.UserRole", b =>
-                {
-                    b.HasOne("VisiitkaartBackend.Data.Models.User", "User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserEmail")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasData(
+                        new { Email = "admin@visiitkaart.ee", PasswordHash = "2iYX3yd5wjY9ZErZzudZ2lXy7MvR46Wb/aHMkGYXlbsVja81", RoleValue = (byte)128 }
+                    );
                 });
 #pragma warning restore 612, 618
         }

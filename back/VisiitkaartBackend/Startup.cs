@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using VisiitkaartBackend.Data;
+using VisiitkaartBackend.Services;
+using VisiitkaartBackend.Services.Interfaces;
 using VisiitkaartBackend.Services.Repositories;
 using VisiitkaartBackend.Services.Repositories.Interfaces;
 
@@ -37,6 +39,7 @@ namespace VisiitkaartBackend
                 options => options.UseSqlServer(Configuration.GetConnectionString("Visiitkaart"))
                 );
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICustomSignInService, CustomSignInService>();
             services.AddMvc();
         }
 
