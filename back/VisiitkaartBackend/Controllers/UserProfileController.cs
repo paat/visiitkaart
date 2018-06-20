@@ -10,7 +10,7 @@ namespace VisiitkaartBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="SuperUser")]
+    [Authorize(Roles ="Admin")]
     public class UserProfileController : ControllerBase
     {
         public string Get()

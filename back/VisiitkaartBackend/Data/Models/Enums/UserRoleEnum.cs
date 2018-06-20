@@ -10,5 +10,6 @@ namespace VisiitkaartBackend.Data.Models.Enums
         StandardUser = 0x04, // 100
         PrepressShop = 0x20, // 100000
         Admin = 0x80         // 10000000
+
     }
 }

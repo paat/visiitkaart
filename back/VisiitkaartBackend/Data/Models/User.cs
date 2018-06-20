@@ -8,39 +8,30 @@ namespace VisiitkaartBackend.Data.Models
 {
     public class User
     {
-        byte _roleValue;
-        List<UserRoleEnum> _roles;
-
         public string Email { get; set; }
         public string PasswordHash { get; set; }
 
-        public byte RoleValue {
+        public byte RoleValue { get; set; }
+
+        public List<UserRoleEnum> Roles
+        {
             get
             {
-                return _roleValue;
-            }
-            set
-            {
-                foreach (int role in Enum.GetValues(typeof(UserRoleEnum)))
+                List<UserRoleEnum> _roles = null;
+                foreach (UserRoleEnum role in Enum.GetValues(typeof(UserRoleEnum)))
                 {
-                    if ((role & value) == role)
+                    int roleCode = (int)role;
+                    if ((roleCode & RoleValue) == roleCode)
                     {
                         if (_roles == null)
                         {
                             _roles = new List<UserRoleEnum>();
                         }
-                        _roles.Add((UserRoleEnum)role);
+                        _roles.Add(role);
                     }
-                        
+
                 }
-                _roleValue = value;
-            }
 
-        }
-
-        public List<UserRoleEnum> Roles {
-            get
-            {
                 return _roles;
             }
             set
@@ -50,8 +41,7 @@ namespace VisiitkaartBackend.Data.Models
                 {
                     roleValue = (roleValue | role);
                 }
-                _roleValue = (byte)roleValue;
-                _roles = value;
+                RoleValue = (byte)roleValue;
             }
 
         }
